@@ -18,7 +18,7 @@ class FlipCard extends ConsumerWidget {
 
 
     return GestureDetector(
-      onTap: () => print('${cardModel.displayName}, ${cardModel.id}'),
+      onTap: () => print('${cardModel.displayName}, ${cardModel.pairId}'),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),

@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @immutable
 class CardModel {
-  const CardModel({required this.displayName, required this.id});
+  const CardModel({required this.displayName, required this.pairId});
 
-  final String id;
+  final String pairId;
   final String displayName;
 }
 
@@ -43,7 +43,7 @@ class CardNotifier extends StateNotifier<List<CardModel>> {
   }
 
   init() {
-    state = List.generate(initList.length, (i) => CardModel(displayName: initList[i], id: initList[i]));
+    state = List.generate(initList.length, (i) => CardModel(displayName: i.toString(), pairId: initList[i]));
   }
 
 }

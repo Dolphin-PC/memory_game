@@ -21,7 +21,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('card.displayName'),
+        title: Text('기억력 게임'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 50),
