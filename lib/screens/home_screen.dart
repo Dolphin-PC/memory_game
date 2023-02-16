@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:memory_game/providers/card_provider.dart';
+import 'package:memory_game/providers/game_provider.dart';
 import 'package:memory_game/screens/game_screen.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends ConsumerWidget{
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    GameProvider gameProvider = Provider.of(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(title: const Text('기억력 게임')),
       body: Center(
@@ -20,11 +22,10 @@ class HomeScreen extends ConsumerWidget{
               size: 200,
             ),
             onPressed: () {
-              ref.watch(cardProvider.notifier).init();
+              gameProvider.init();
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => GameScreen(), fullscreenDialog: true),
+                MaterialPageRoute(builder: (context) => GameScreen(), fullscreenDialog: true),
               );
             },
           ),

@@ -1,31 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:memory_game/providers/card_provider.dart';
+import 'package:memory_game/models/card_model.dart';
+import 'package:memory_game/providers/game_provider.dart';
+import 'package:provider/provider.dart';
 
-final counterProvider = StateProvider((ref) => 0);
-
-class FlipCard extends ConsumerWidget {
+class FlipCard extends StatelessWidget {
   const FlipCard({
     Key? key,
-    required this.cardModel,
+    required this.index,
   }) : super(key: key);
 
-  final CardModel cardModel;
+  final int index;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // var watch = ref.watch(cardProvider.notifier);
+  Widget build(BuildContext context) {
+    GameProvider gameProvider = Provider.of(context, listen: true);
 
+    CardModel card = gameProvider.initCardList[index];
 
     return GestureDetector(
-      onTap: () => print('${cardModel.displayName}, ${cardModel.pairId}'),
+      onTap: () {
+        gameProvider.cardClick(card);
+      },
       child: Container(
         decoration: BoxDecoration(
+          color: card.isCorrect
+              ? Colors.red
+              : card.isClicked
+                  ? Colors.grey
+                  : Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.green),
         ),
         child: Center(
-          child: Text(cardModel.displayName),
+          child: Text(card.displayName),
         ),
       ),
     );
