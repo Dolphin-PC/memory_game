@@ -49,8 +49,13 @@ class GameProvider extends ChangeNotifier {
       card1.isCorrect = true;
       card2.isCorrect = true;
     } else {
-      card1.isClicked = false;
-      card2.isClicked = false;
+      print('not pair!!');
+      Future.delayed(Duration(milliseconds: 1000), () {
+        card1.isClicked = false;
+        card2.isClicked = false;
+        notifyListeners();
+        print('not pair@@');
+      });
     }
     pairCardList = [];
   }

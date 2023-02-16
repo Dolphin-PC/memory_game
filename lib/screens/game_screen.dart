@@ -34,7 +34,7 @@ class _GameScreenState extends State<GameScreen> {
               crossAxisSpacing: 10, // 수직 padding
             ),
             itemBuilder: (BuildContext context, int index) {
-              return FlipCard(index: index);
+              return FlipCard(index: index, card: gameProvider.initCardList[index]);
             },
           ),
         ),
