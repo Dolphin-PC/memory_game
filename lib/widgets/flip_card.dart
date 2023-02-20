@@ -20,7 +20,7 @@ class FlipCard extends StatefulWidget {
 }
 
 class _FlipCardState extends State<FlipCard> {
-  bool getIsFront() => widget.card.isCorrect || widget.card.isClicked;
+  bool getIsFront() => widget.card.isCorrect || widget.card.isClicked || widget.card.isInit;
 
   renderCard() {
     if (getIsFront()) {
@@ -35,10 +35,14 @@ class _FlipCardState extends State<FlipCard> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.green),
+        color: Colors.green,
       ),
       key: const ValueKey<int>(0),
       child: Center(
-        child: Text(widget.card.displayName),
+        child: Text(widget.card.pairId,
+            style: TextStyle(
+              color: Colors.white,
+            )),
       ),
     );
   }

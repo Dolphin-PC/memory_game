@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
               size: 200,
             ),
             onPressed: () {
-              gameProvider.init();
+              gameProvider.gameStart();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => GameScreen(), fullscreenDialog: true),

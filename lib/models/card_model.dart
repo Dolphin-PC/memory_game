@@ -4,5 +4,5 @@ class CardModel {
   final String pairId;
   final String displayName;
 
-  bool isCorrect = false, isClicked = false;
+  bool isCorrect = false, isClicked = false, isInit = false;
 }

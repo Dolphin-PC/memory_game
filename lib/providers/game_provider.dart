@@ -5,6 +5,10 @@ class GameProvider extends ChangeNotifier {
   List<CardModel> initCardList = [];
   List<CardModel> pairCardList = [];
 
+  int remainLife = 3;
+
+  bool isAllCorrect = false, isAllUnCorrect = false, isClickable = false;
+
   final List<String> initList = [
     '1',
     '1',
@@ -25,16 +29,32 @@ class GameProvider extends ChangeNotifier {
   ];
 
   void init() {
+    remainLife = 3;
+    isClickable = true;
+    isAllUnCorrect = isAllCorrect = false;
+    pairCardList = [];
     initCardList = List.generate(initList.length, (i) => CardModel(displayName: i.toString(), pairId: initList[i]));
+    initCardList.shuffle();
+  }
+
+  void gameStart() {
+    init();
+    initCardList.forEach((element) => element.isInit = true);
+    Future.delayed(Duration(milliseconds: 3000), () {
+      initCardList.forEach((element) => element.isInit = false);
+      notifyListeners();
+    });
+    notifyListeners();
   }
 
   void cardClick(CardModel card) {
-    if (card.isCorrect) return;
+    if (card.isCorrect || !isClickable) return;
 
     card.isClicked = !card.isClicked;
     pairCardList.add(card);
 
-    if (pairCardList.length == 2) {
+    print(pairCardList.length);
+    if (pairCardList.length >= 2) {
       compareCard();
     }
 
@@ -42,21 +62,41 @@ class GameProvider extends ChangeNotifier {
   }
 
   void compareCard() {
+    isClickable = false;
     var card1 = pairCardList[0];
     var card2 = pairCardList[1];
     if (card1.pairId == card2.pairId && card1.displayName != card2.displayName) {
       print('pair!!');
       card1.isCorrect = true;
       card2.isCorrect = true;
+      allCorrect();
+      isClickable = true;
     } else {
-      print('not pair!!');
+      if (allUnCorrect()) return;
       Future.delayed(Duration(milliseconds: 1000), () {
         card1.isClicked = false;
         card2.isClicked = false;
+        isClickable = true;
         notifyListeners();
-        print('not pair@@');
       });
     }
     pairCardList = [];
+  }
+
+  void allCorrect() {
+    isAllCorrect = initCardList.every((card) => card.isCorrect == true);
+    if (isAllCorrect) {
+      print('all correct');
+    }
+  }
+
+  bool allUnCorrect() {
+    if (--remainLife <= 0) {
+      isAllUnCorrect = true;
+      print('all un correct');
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 }
