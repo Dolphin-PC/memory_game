@@ -105,4 +105,9 @@ class GameProvider extends ChangeNotifier {
     }
     return false;
   }
+
+  void testComplete() {
+    isAllCorrect = true;
+    notifyListeners();
+  }
 }

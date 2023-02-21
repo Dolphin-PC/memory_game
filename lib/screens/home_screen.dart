@@ -17,36 +17,36 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: ColorStyles.bgPrimaryColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                '카드뒤집기',
-                textAlign: TextAlign.center,
-                style: TextStyles.titleText,
-              ),
-              // Container(
-              //   width: 120,
-              //   height: 120,
-              //   decoration: const BoxDecoration(image: DecorationImage(fit: BoxFit.cover, image: AssetImage('assets/images/default_icon.png'))),
-              // ),
               Expanded(
-                child: GestureDetector(
-                  child: Hero(
-                    tag: 'default_icon',
-                    child: Image.asset(
-                      'assets/images/default_icon.png',
-                      fit: BoxFit.contain,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      child: Hero(
+                        tag: 'default_icon',
+                        child: Image.asset(
+                          'assets/images/default_icon.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => GameScreen(), fullscreenDialog: true),
+                        );
+                      },
                     ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => GameScreen(), fullscreenDialog: true),
-                    );
-                  },
+                    Text(
+                      '카드뒤집기게임에 온 걸 환영한다냥',
+                      textAlign: TextAlign.center,
+                      style: TextStyles.cardText,
+                    ),
+                  ],
                 ),
               ),
               Text('', textAlign: TextAlign.center),

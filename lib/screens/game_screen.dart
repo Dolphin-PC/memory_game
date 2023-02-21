@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:memory_game/common/util.dart';
 import 'package:memory_game/providers/game_provider.dart';
 import 'package:memory_game/styles/color_styles.dart';
 import 'package:memory_game/styles/text_styles.dart';
@@ -29,100 +29,29 @@ class _GameScreenState extends State<GameScreen> {
 
   gameStart() {
     gameProvider.gameStart();
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   builder: (BuildContext context) {
-    //     return AlertDialog(
-    //       content: Text(
-    //         '3초 뒤에 시작합니다.',
-    //         style: TextStyles.plainText,
-    //       ),
-    //       actions: [
-    //         ElevatedButton(
-    //           child: Text('시작'),
-    //           onPressed: () {
-    //             Navigator.of(context).pop();
-    //             gameProvider.gameStart();
-    //           },
-    //         )
-    //       ],
-    //     );
-    //   },
-    // );
+    setState(() {
+      isGameRunning = true;
+    });
+  }
+
+  Text resultText() {
+    String text = "3초 동안 보여주니, 잘봐라냥";
+
+    if (gameProvider.isAllUnCorrect) {
+      text = "남은 생명이 없다냥\n다시 할거면 날 눌러라냥";
+    } else if (gameProvider.isAllCorrect) {
+      text = "정답이다냥\n다시 할거면 날 눌러라냥";
+    }
+
+    return Text(text, style: TextStyles.cardText);
   }
 
   @override
   Widget build(BuildContext context) {
     gameProvider = Provider.of(context, listen: true);
 
-    if (gameProvider.isAllCorrect) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('전부 맞췄습니다!'),
-            actions: [
-              ElevatedButton(
-                child: Text('나가기'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-              ),
-              ElevatedButton(
-                child: Text('다시 시작'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  gameStart();
-                },
-              )
-            ],
-          );
-        },
-      );
-    }
-    if (gameProvider.isAllUnCorrect) {
-      print('gameProvider.isAllUnCorrect');
-      Util.execAfterBinding(() {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: ColorStyles.bgPrimaryColor,
-              content: Text(
-                '남은 생명 수가 없어요...',
-                style: TextStyles.plainText,
-              ),
-              actions: [
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(backgroundColor: Colors.transparent, foregroundColor: Colors.black),
-                  child: Text(
-                    '나가기',
-                    style: TextStyles.buttonText,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                ),
-                ElevatedButton(
-                  child: Text(
-                    '다시 시작',
-                    style: TextStyles.buttonText,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    gameStart();
-                  },
-                )
-              ],
-            );
-          },
-        );
-      });
+    if (gameProvider.isAllCorrect || gameProvider.isAllUnCorrect) {
+      isGameRunning = false;
     }
 
     return Scaffold(
@@ -159,29 +88,36 @@ class _GameScreenState extends State<GameScreen> {
                           },
                         ),
                       )
-                    : GestureDetector(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Hero(
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              gameStart();
+                              print('게임 사직냥');
+                            },
+                            child: Hero(
                               tag: 'default_icon',
                               child: Image.asset(
                                 'assets/images/default_icon.png',
                                 fit: BoxFit.contain,
                               ),
                             ),
-                            Text(
-                              '3초 동안 보여줄테니, 잘봐라냥',
-                              style: TextStyles.cardText,
-                            )
-                          ],
-                        ),
-                        onTap: () {},
+                          ),
+                          resultText(),
+                        ],
                       ),
               ),
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(Icons.arrow_back, color: ColorStyles.borderColor, size: 50),
+              Visibility(
+                visible: kDebugMode && isGameRunning,
+                child: ElevatedButton(
+                  onPressed: () => gameProvider.testComplete(),
+                  child: Text('완료 처리'),
+                ),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Icon(Icons.arrow_back, color: ColorStyles.borderColor, size: 50),
               )
             ],
           ),
