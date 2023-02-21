@@ -1,10 +1,17 @@
 import 'package:card_memory_game/screens/home_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/game_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) {
+    MobileAds.instance.initialize();
+  }
+
   runApp(const MyApp());
 }
 

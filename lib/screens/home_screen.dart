@@ -1,3 +1,4 @@
+import 'package:card_memory_game/ads/ad_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,14 +43,14 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      '카드뒤집기게임에 온 걸 환영한다냥',
+                      '카드뒤집기게임에 온 걸 환영한다냥\n시작하려면 날 눌러라냥',
                       textAlign: TextAlign.center,
                       style: TextStyles.cardText,
                     ),
                   ],
                 ),
               ),
-              Text('', textAlign: TextAlign.center),
+              const AdBanner()
             ],
           ),
         ),

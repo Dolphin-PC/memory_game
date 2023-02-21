@@ -36,6 +36,7 @@ class GameProvider extends ChangeNotifier {
     pairCardList = [];
     initCardList = List.generate(initList.length, (i) => CardModel(displayName: i.toString(), pairId: initList[i]));
     initCardList.shuffle();
+    notifyListeners();
   }
 
   void gameStart() {

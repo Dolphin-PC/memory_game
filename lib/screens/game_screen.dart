@@ -1,3 +1,4 @@
+import 'package:card_memory_game/common/util.dart';
 import 'package:card_memory_game/providers/game_provider.dart';
 import 'package:card_memory_game/styles/text_styles.dart';
 import 'package:card_memory_game/widgets/flip_card.dart';
@@ -23,9 +24,9 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void initState() {
     super.initState();
-    // Util.execAfterBinding(() {
-    //   gameStart();
-    // });
+    Util.execAfterBinding(() {
+      gameProvider.init();
+    });
   }
 
   gameStart() {
@@ -36,7 +37,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Text resultText() {
-    String text = "3초 동안 보여주니, 잘봐라냥";
+    String text = "날 누르고\n3초 동안 보여주니, 잘봐라냥";
 
     if (gameProvider.isAllUnCorrect) {
       text = "남은 생명이 없다냥\n다시 할거면 날 눌러라냥";
@@ -44,7 +45,7 @@ class _GameScreenState extends State<GameScreen> {
       text = "정답이다냥\n다시 할거면 날 눌러라냥";
     }
 
-    return Text(text, style: TextStyles.cardText);
+    return Text(text, textAlign: TextAlign.center, style: TextStyles.cardText);
   }
 
   @override
@@ -116,9 +117,12 @@ class _GameScreenState extends State<GameScreen> {
                   child: Text('완료 처리'),
                 ),
               ),
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Icon(Icons.arrow_back, color: ColorStyles.borderColor, size: 50),
+              Container(
+                height: 50,
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(Icons.arrow_back, color: ColorStyles.borderColor, size: 50),
+                ),
               )
             ],
           ),
