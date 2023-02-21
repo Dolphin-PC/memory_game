@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/src/painting/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:memory_game/styles/color_styles.dart';
+
+import 'color_styles.dart';
 
 class TextStyles {
   static TextStyle get titleText => GoogleFonts.nanumBrushScript(color: ColorStyles.textColor, fontSize: 50, fontWeight: FontWeight.w700);

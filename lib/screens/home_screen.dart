@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:memory_game/providers/game_provider.dart';
-import 'package:memory_game/styles/color_styles.dart';
-import 'package:memory_game/styles/text_styles.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/game_provider.dart';
+import '../styles/color_styles.dart';
+import '../styles/text_styles.dart';
 import 'game_screen.dart';
 
 class HomeScreen extends StatelessWidget {

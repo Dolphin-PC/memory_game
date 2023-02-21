@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memory_game/models/card_model.dart';
+
+import '../models/card_model.dart';
 
 class GameProvider extends ChangeNotifier {
   List<CardModel> initCardList = [];

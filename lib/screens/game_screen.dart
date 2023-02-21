@@ -1,10 +1,11 @@
+import 'package:card_memory_game/providers/game_provider.dart';
+import 'package:card_memory_game/styles/text_styles.dart';
+import 'package:card_memory_game/widgets/flip_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:memory_game/providers/game_provider.dart';
-import 'package:memory_game/styles/color_styles.dart';
-import 'package:memory_game/styles/text_styles.dart';
-import 'package:memory_game/widgets/flip_card.dart';
 import 'package:provider/provider.dart';
+
+import '../styles/color_styles.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({

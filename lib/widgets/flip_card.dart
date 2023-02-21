@@ -1,11 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:memory_game/models/card_model.dart';
-import 'package:memory_game/providers/game_provider.dart';
-import 'package:memory_game/styles/color_styles.dart';
-import 'package:memory_game/styles/text_styles.dart';
 import 'package:provider/provider.dart';
+
+import '../models/card_model.dart';
+import '../providers/game_provider.dart';
+import '../styles/color_styles.dart';
+import '../styles/text_styles.dart';
 
 class FlipCard extends StatefulWidget {
   const FlipCard({
