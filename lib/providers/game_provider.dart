@@ -47,6 +47,11 @@ class GameProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void gameOver() {
+    // isAllUnCorrect = isAllCorrect = false;
+    initCardList = pairCardList = [];
+  }
+
   void cardClick(CardModel card) {
     if (card.isCorrect || !isClickable) return;
 
@@ -93,6 +98,7 @@ class GameProvider extends ChangeNotifier {
   bool allUnCorrect() {
     if (--remainLife <= 0) {
       isAllUnCorrect = true;
+      gameOver();
       print('all un correct');
       notifyListeners();
       return true;

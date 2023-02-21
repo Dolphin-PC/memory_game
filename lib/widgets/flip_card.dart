@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:memory_game/models/card_model.dart';
 import 'package:memory_game/providers/game_provider.dart';
+import 'package:memory_game/styles/color_styles.dart';
+import 'package:memory_game/styles/text_styles.dart';
 import 'package:provider/provider.dart';
 
 class FlipCard extends StatefulWidget {
@@ -34,15 +36,12 @@ class _FlipCardState extends State<FlipCard> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.green),
-        color: Colors.green,
+        border: Border.all(color: ColorStyles.borderColor),
+        color: ColorStyles.bgSecondaryColor,
       ),
       key: const ValueKey<int>(0),
       child: Center(
-        child: Text(widget.card.pairId,
-            style: TextStyle(
-              color: Colors.white,
-            )),
+        child: Text(widget.card.pairId, style: TextStyles.cardText),
       ),
     );
   }
@@ -51,11 +50,11 @@ class _FlipCardState extends State<FlipCard> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.green),
+        border: Border.all(color: ColorStyles.borderColor),
       ),
       key: const ValueKey<int>(1),
       child: Center(
-        child: Text('FRONT'),
+        child: Text('BACK', style: TextStyles.cardText),
       ),
     );
   }
