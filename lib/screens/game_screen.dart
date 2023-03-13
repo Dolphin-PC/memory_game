@@ -4,6 +4,7 @@ import 'package:card_memory_game/styles/text_styles.dart';
 import 'package:card_memory_game/widgets/flip_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:provider/provider.dart';
 
 import '../styles/color_styles.dart';
@@ -26,7 +27,16 @@ class _GameScreenState extends State<GameScreen> {
     super.initState();
     Util.execAfterBinding(() {
       gameProvider.init();
+
+      // 캡쳐 방지
+      FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    gameProvider.gameOver();
   }
 
   gameStart() {
@@ -129,11 +139,5 @@ class _GameScreenState extends State<GameScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    gameProvider.gameOver();
   }
 }
