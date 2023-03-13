@@ -30,9 +30,9 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       child: Hero(
-                        tag: 'default_icon',
+                        tag: 'default',
                         child: Image.asset(
-                          'assets/images/default_icon.png',
+                          'assets/images/default.png',
                           fit: BoxFit.contain,
                         ),
                       ),

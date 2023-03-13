@@ -109,9 +109,9 @@ class _GameScreenState extends State<GameScreen> {
                               print('게임 사직냥');
                             },
                             child: Hero(
-                              tag: 'default_icon',
+                              tag: 'default_cat',
                               child: Image.asset(
-                                'assets/images/default_icon.png',
+                                'assets/images/default_cat.png',
                                 fit: BoxFit.contain,
                               ),
                             ),
