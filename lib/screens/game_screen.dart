@@ -1,9 +1,12 @@
 import 'package:card_memory_game/common/util.dart';
+import 'package:card_memory_game/main.dart';
 import 'package:card_memory_game/providers/game_provider.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
 import 'package:card_memory_game/styles/text_styles.dart';
 import 'package:card_memory_game/widgets/flip_card.dart';
+import 'package:card_memory_game/widgets/game_items.dart';
 import 'package:card_memory_game/widgets/point_widget.dart';
+import 'package:card_memory_game/widgets/remain_life.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
@@ -81,16 +84,15 @@ class _GameScreenState extends State<GameScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               isGameRunning
-                  ? Text(
-                      '남은 생명 수 : ${gameProvider.remainLife.toString()}',
-                      textAlign: TextAlign.center,
-                      style: TextStyles.titleText,
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RemainLife(life: gameProvider.remainLife),
+                        const GameItems(),
+                      ],
                     )
                   : Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const PointWidget(),
-                      ],
+                      children: const [PointWidget()],
                     ),
               Expanded(
                 child: isGameRunning
@@ -115,7 +117,7 @@ class _GameScreenState extends State<GameScreen> {
                           GestureDetector(
                             onTap: () {
                               gameStart();
-                              print('게임 사직냥');
+                              logger.d('게임 사직냥');
                             },
                             child: Hero(
                               tag: 'default_cat',
@@ -133,10 +135,10 @@ class _GameScreenState extends State<GameScreen> {
                 visible: kDebugMode && isGameRunning,
                 child: ElevatedButton(
                   onPressed: () => gameProvider.testComplete(),
-                  child: Text('완료 처리'),
+                  child: const Text('완료 처리'),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 50,
                 child: GestureDetector(
                   onTap: () => Navigator.pop(context),

@@ -1,3 +1,4 @@
+import 'package:card_memory_game/main.dart';
 import 'package:flutter/material.dart';
 
 import '../models/card_model.dart';
@@ -41,9 +42,13 @@ class GameProvider extends ChangeNotifier {
 
   void gameStart() {
     init();
-    initCardList.forEach((element) => element.isInit = true);
-    Future.delayed(Duration(milliseconds: 3000), () {
-      initCardList.forEach((element) => element.isInit = false);
+    for (var element in initCardList) {
+      element.isInit = true;
+    }
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      for (var element in initCardList) {
+        element.isInit = false;
+      }
       notifyListeners();
     });
     notifyListeners();
@@ -60,7 +65,6 @@ class GameProvider extends ChangeNotifier {
     card.isClicked = !card.isClicked;
     pairCardList.add(card);
 
-    print(pairCardList.length);
     if (pairCardList.length >= 2) {
       compareCard();
     }
@@ -73,14 +77,14 @@ class GameProvider extends ChangeNotifier {
     var card1 = pairCardList[0];
     var card2 = pairCardList[1];
     if (card1.pairId == card2.pairId && card1.displayName != card2.displayName) {
-      print('pair!!');
+      logger.d('pair!!');
       card1.isCorrect = true;
       card2.isCorrect = true;
       allCorrect();
       isClickable = true;
     } else {
       if (allUnCorrect()) return;
-      Future.delayed(Duration(milliseconds: 1000), () {
+      Future.delayed(const Duration(milliseconds: 1000), () {
         card1.isClicked = false;
         card2.isClicked = false;
         isClickable = true;
@@ -93,15 +97,14 @@ class GameProvider extends ChangeNotifier {
   void allCorrect() {
     isAllCorrect = initCardList.every((card) => card.isCorrect == true);
     if (isAllCorrect) {
-      print('all correct');
+      logger.d('all correct');
     }
   }
 
   bool allUnCorrect() {
     if (--remainLife <= 0) {
       isAllUnCorrect = true;
-      gameOver();
-      print('all un correct');
+
       notifyListeners();
       return true;
     }
