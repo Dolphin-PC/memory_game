@@ -50,7 +50,7 @@ class GameProvider extends ChangeNotifier {
   }
 
   void gameOver() {
-    // isAllUnCorrect = isAllCorrect = false;
+    isAllUnCorrect = isAllCorrect = false;
     initCardList = pairCardList = [];
   }
 

@@ -1,5 +1,6 @@
 import 'package:card_memory_game/ads/ad_banner.dart';
 import 'package:card_memory_game/screens/setting_screen.dart';
+import 'package:card_memory_game/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,22 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const PointWidget(),
+                  IconButton(
+                    color: ColorStyles.borderColor,
+                    icon: Icon(Icons.settings),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SettingScreen()),
+                      );
+                    },
+                  )
+                ],
+              ),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -53,24 +70,6 @@ class HomeScreen extends StatelessWidget {
               ),
               const AdBanner()
             ],
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: FloatingActionButton(
-          backgroundColor: ColorStyles.borderColor,
-          onPressed: () {},
-          child: IconButton(
-            color: ColorStyles.bgPrimaryColor,
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingScreen()),
-              );
-            },
           ),
         ),
       ),

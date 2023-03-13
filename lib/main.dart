@@ -1,10 +1,20 @@
+import 'package:card_memory_game/providers/point_provider.dart';
 import 'package:card_memory_game/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/game_provider.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
+
+var loggerNoStack = Logger(
+  printer: PrettyPrinter(methodCount: 0),
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => GameProvider()),
+        ChangeNotifierProvider(create: (_) => PointProvider()),
       ],
       child: MaterialApp(
         title: 'memory game',

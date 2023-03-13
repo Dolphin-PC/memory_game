@@ -1,7 +1,9 @@
 import 'package:card_memory_game/common/util.dart';
 import 'package:card_memory_game/providers/game_provider.dart';
+import 'package:card_memory_game/providers/point_provider.dart';
 import 'package:card_memory_game/styles/text_styles.dart';
 import 'package:card_memory_game/widgets/flip_card.dart';
+import 'package:card_memory_game/widgets/point_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
@@ -20,6 +22,7 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   late GameProvider gameProvider;
+  late PointProvider pointProvider;
   bool isGameRunning = false;
 
   @override
@@ -53,6 +56,7 @@ class _GameScreenState extends State<GameScreen> {
       text = "남은 생명이 없다냥\n다시 할거면 날 눌러라냥";
     } else if (gameProvider.isAllCorrect) {
       text = "정답이다냥\n다시 할거면 날 눌러라냥";
+      pointProvider.addPoint(PointType.gameClear);
     }
 
     return Text(text, textAlign: TextAlign.center, style: TextStyles.cardText);
@@ -61,6 +65,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     gameProvider = Provider.of(context, listen: true);
+    pointProvider = Provider.of(context, listen: false);
 
     if (gameProvider.isAllCorrect || gameProvider.isAllUnCorrect) {
       isGameRunning = false;
@@ -75,14 +80,18 @@ class _GameScreenState extends State<GameScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Visibility(
-                visible: isGameRunning,
-                child: Text(
-                  '남은 생명 수 : ${gameProvider.remainLife.toString()}',
-                  textAlign: TextAlign.center,
-                  style: TextStyles.titleText,
-                ),
-              ),
+              isGameRunning
+                  ? Text(
+                      '남은 생명 수 : ${gameProvider.remainLife.toString()}',
+                      textAlign: TextAlign.center,
+                      style: TextStyles.titleText,
+                    )
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const PointWidget(),
+                      ],
+                    ),
               Expanded(
                 child: isGameRunning
                     ? Center(

@@ -1,0 +1,31 @@
+import 'package:card_memory_game/common/util.dart';
+import 'package:flutter/cupertino.dart';
+
+class PointProvider extends ChangeNotifier {
+  final String key = "point";
+
+  int _point = 0;
+
+  Future<int> get point async {
+    /// GET 포인트 정보
+    if (!await Util.isSharedData(key)) {
+      await Util.setSharedData<int>(key, 0);
+    }
+    _point = await Util.getSharedData<int>(key);
+
+    return _point;
+  }
+
+  Future addPoint(int value) async {
+    int orgPoint = await point;
+    int updatePoint = orgPoint + value;
+
+    await Util.setSharedData<int>(key, updatePoint);
+    notifyListeners();
+  }
+}
+
+class PointType {
+  static int get gameClear => 1;
+  static int get watchAds => 5;
+}
