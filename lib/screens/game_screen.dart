@@ -83,17 +83,17 @@ class _GameScreenState extends State<GameScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              isGameRunning
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RemainLife(life: gameProvider.remainLife),
-                        const GameItems(),
-                      ],
-                    )
-                  : Row(
-                      children: const [PointWidget()],
-                    ),
+              PointWidget(),
+              Visibility(
+                visible: isGameRunning,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const GameItems(),
+                    RemainLife(life: gameProvider.remainLife),
+                  ],
+                ),
+              ),
               Expanded(
                 child: isGameRunning
                     ? Center(

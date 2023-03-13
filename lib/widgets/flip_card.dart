@@ -23,7 +23,7 @@ class FlipCard extends StatefulWidget {
 }
 
 class _FlipCardState extends State<FlipCard> {
-  bool getIsFront() => widget.card.isCorrect || widget.card.isClicked || widget.card.isInit;
+  bool getIsFront() => widget.card.isCorrect || widget.card.isClicked || widget.card.isInit || widget.card.isView;
 
   renderCard() {
     if (getIsFront()) {
