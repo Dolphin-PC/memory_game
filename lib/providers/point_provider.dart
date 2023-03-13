@@ -1,4 +1,5 @@
 import 'package:card_memory_game/common/util.dart';
+import 'package:card_memory_game/models/point_history_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class PointProvider extends ChangeNotifier {
@@ -21,6 +22,10 @@ class PointProvider extends ChangeNotifier {
     int updatePoint = orgPoint + value;
 
     await Util.setSharedData<int>(key, updatePoint);
+
+    /// 포인트 이력 저장
+    PointHistoryModel pointHistoryModel = PointHistoryModel(pointMemo: '광고 시청', pointCnt: value);
+    pointHistoryModel.insert();
     notifyListeners();
   }
 

@@ -16,6 +16,7 @@ class PointWidget extends StatefulWidget {
 
 class _PointWidgetState extends State<PointWidget> {
   AdRewarded adRewarded = AdRewarded();
+
   @override
   void initState() {
     super.initState();
@@ -32,16 +33,17 @@ class _PointWidgetState extends State<PointWidget> {
           icon: Icon(Icons.control_point_duplicate),
           onPressed: () {
             Dialogs.confirmDialog(
-                context: context,
-                contentText: "광고를 시청하면, 츄르를 ${PointType.watchAds}개를 준다냥",
-                succBtnName: "시청",
-                succFn: () {
-                  adRewarded.rewardedAd?.show(onUserEarnedReward: (_, RewardItem reward) {
-                    logger.d("광고 시청 완료, ${reward.type}");
-                    pointProvider.addPoint(PointType.watchAds);
-                  });
-                  Navigator.pop(context);
+              context: context,
+              contentText: "광고를 시청하면, 츄르를 ${PointType.watchAds}개를 준다냥",
+              succBtnName: "시청",
+              succFn: () {
+                adRewarded.rewardedAd?.show(onUserEarnedReward: (_, RewardItem reward) {
+                  logger.d("광고 시청 완료, ${reward.type}");
+                  pointProvider.addPoint(PointType.watchAds);
                 });
+                Navigator.pop(context);
+              },
+            );
           },
         ),
         const SizedBox(width: 8),
