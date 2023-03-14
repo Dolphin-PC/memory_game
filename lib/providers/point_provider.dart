@@ -24,8 +24,9 @@ class PointProvider extends ChangeNotifier {
     await Util.setSharedData<int>(key, updatePoint);
 
     /// 포인트 이력 저장
-    PointHistoryModel pointHistoryModel = PointHistoryModel(pointMemo: '광고 시청', pointCnt: value);
-    pointHistoryModel.insert();
+    PointHistoryModel pointHistoryModel = PointHistoryModel(pointMemo: PointType.addPointMap[value] ?? '-', pointCnt: value);
+    await pointHistoryModel.insert();
+
     notifyListeners();
   }
 
@@ -35,7 +36,16 @@ class PointProvider extends ChangeNotifier {
     if (updatePoint < 0) return;
 
     await Util.setSharedData<int>(key, updatePoint);
+
+    /// 포인트 이력 저장
+    PointHistoryModel pointHistoryModel = PointHistoryModel(pointMemo: PointType.minusPointMap[value] ?? '-', pointCnt: value);
+    await pointHistoryModel.insert();
+
     notifyListeners();
+  }
+
+  Future<List<PointHistoryModel>> selectList() async {
+    return await PointHistoryModel.selectList();
   }
 }
 
@@ -43,8 +53,18 @@ class PointType {
   static int get gameClear => 1;
   static int get watchAds => 5;
   static int get stageClear => 10;
+  static Map<int, String> addPointMap = {
+    gameClear: "[보상] 게임 클리어",
+    watchAds: "[보상] 광고 시청",
+    stageClear: "[보상] 스테이지 클리어",
+  };
 
   static int get itemAddHeart => 1;
   static int get itemReview => 2;
   static int get itemDonePair => 3;
+  static Map<int, String> minusPointMap = {
+    itemAddHeart: "[사용] 하트 충전",
+    itemReview: "[사용] 다시 보기",
+    itemDonePair: "[사용] 짝 맞추기",
+  };
 }

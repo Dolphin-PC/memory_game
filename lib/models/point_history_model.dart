@@ -1,5 +1,6 @@
 import 'package:card_memory_game/db/db_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PointHistoryModel {
@@ -15,11 +16,11 @@ class PointHistoryModel {
       'id': id,
       'point_cnt': pointCnt,
       'point_memo': pointMemo,
-      'reg_date': DateTime.now(),
+      'reg_dt': DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now()),
     };
   }
 
-  static Future<List<PointHistoryModel>> selectList({required List whereArgs, bool isDelete = true}) async {
+  static Future<List<PointHistoryModel>> selectList() async {
     final db = await DBHelper().database;
     final List<dynamic> maps = await db.query("point_history");
 
@@ -28,7 +29,8 @@ class PointHistoryModel {
         id: maps[i]['id'],
         pointCnt: maps[i]['point_cnt'],
         pointMemo: maps[i]['point_memo'],
-        regDate: DateTime.parse(maps[i]['reg_date']),
+        regDate: DateTime.parse(maps[i]['reg_dt']),
+        // regDate: DateFormat("yyyy-MM-dd").format(DateTime.parse(maps[i]['reg_dt'])),
       );
     });
 

@@ -34,7 +34,7 @@ class GameProvider extends ChangeNotifier {
     remainLife = 3;
     isClickable = true;
     gameOver();
-    remainCardList = initCardList = List.generate(initList.length, (i) => CardModel(displayName: i.toString(), pairId: initList[i]));
+    initCardList = List.generate(initList.length, (i) => CardModel(displayName: i.toString(), pairId: initList[i]));
     remainCardList = [...initCardList];
     initCardList.shuffle();
     notifyListeners();
@@ -55,8 +55,12 @@ class GameProvider extends ChangeNotifier {
   }
 
   void gameOver() {
-    isAllUnCorrect = isAllCorrect = false;
-    initCardList = pairCardList = correctedCardList = remainCardList = [];
+    isAllUnCorrect = false;
+    isAllCorrect = false;
+    initCardList = [];
+    pairCardList = [];
+    correctedCardList = [];
+    remainCardList = [];
   }
 
   void cardClick(CardModel card) {
@@ -93,8 +97,10 @@ class GameProvider extends ChangeNotifier {
   void correctCard(CardModel card1, CardModel card2) {
     card1.isCorrect = true;
     card2.isCorrect = true;
+
     correctedCardList.add(card1);
     correctedCardList.add(card2);
+    logger.d(pairCardList.map((item) => item.pairId));
     remainCardList.removeWhere((element) => element.pairId == card1.pairId);
     allCorrect();
     isClickable = true;
@@ -151,8 +157,8 @@ class GameProvider extends ChangeNotifier {
     pointProvider.minusPoint(PointType.itemDonePair);
 
     CardModel firstCard = remainCardList.first;
-    List<CardModel> pairCardList = remainCardList.where((element) => element.pairId == firstCard.pairId).toList();
-    correctCard(pairCardList[0], pairCardList[1]);
+    List<CardModel> pairList = remainCardList.where((element) => element.pairId == firstCard.pairId).toList();
+    correctCard(pairList[0], pairList[1]);
 
     notifyListeners();
   }

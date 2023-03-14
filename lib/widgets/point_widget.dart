@@ -2,6 +2,7 @@ import 'package:card_memory_game/ads/ad_rewarded.dart';
 import 'package:card_memory_game/common/widgets/dialogs.dart';
 import 'package:card_memory_game/main.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
+import 'package:card_memory_game/screens/point_history_screen.dart';
 import 'package:card_memory_game/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -51,9 +52,20 @@ class _PointWidgetState extends State<PointWidget> {
           future: pointProvider.point,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) return const Text('0');
-            return Text(
-              'X ${snapshot.data}',
-              style: TextStyles.plainText,
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    fullscreenDialog: true,
+                    builder: (context) => const PointHistoryScreen(),
+                  ),
+                );
+              },
+              child: Text(
+                'X ${snapshot.data}',
+                style: TextStyles.plainText,
+              ),
             );
           },
         ),
