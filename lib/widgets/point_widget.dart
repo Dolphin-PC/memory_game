@@ -31,7 +31,7 @@ class _PointWidgetState extends State<PointWidget> {
     return Row(
       children: [
         IconButton(
-          icon: Icon(Icons.control_point_duplicate),
+          icon: const Icon(Icons.control_point_duplicate),
           onPressed: () {
             Dialogs.confirmDialog(
               context: context,

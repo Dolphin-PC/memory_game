@@ -25,15 +25,32 @@ class FlipCard extends StatefulWidget {
 class _FlipCardState extends State<FlipCard> {
   bool getIsFront() => widget.card.isCorrect || widget.card.isClicked || widget.card.isInit || widget.card.isView;
 
-  renderCard() {
+  renderCard({required CardType cardType}) {
     if (getIsFront()) {
-      return renderFront();
+      return renderFront(cardType: cardType);
     }
 
     return renderBack();
   }
 
-  renderFront() {
+  renderFront({required CardType cardType}) {
+    Widget getCardWidget() {
+      switch (cardType) {
+        case CardType.image:
+          {
+            return Text('image');
+          }
+        case CardType.icon:
+          {
+            return Text('icon');
+          }
+        default:
+          {
+            return Text(widget.card.pairId, style: TextStyles.cardText);
+          }
+      }
+    }
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -42,7 +59,7 @@ class _FlipCardState extends State<FlipCard> {
       ),
       key: const ValueKey<int>(0),
       child: Center(
-        child: Text(widget.card.pairId, style: TextStyles.cardText),
+        child: getCardWidget(),
       ),
     );
   }
@@ -55,8 +72,13 @@ class _FlipCardState extends State<FlipCard> {
       ),
       key: const ValueKey<int>(1),
       child: Center(
-        child: Text('BACK', style: TextStyles.cardText),
-      ),
+          child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Image.asset(
+          'assets/images/card_back.png',
+          fit: BoxFit.contain,
+        ),
+      )),
     );
   }
 
@@ -92,7 +114,7 @@ class _FlipCardState extends State<FlipCard> {
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         transitionBuilder: wrapAnimatedBuilder,
-        child: renderCard(),
+        child: renderCard(cardType: gameProvider.selectedCardType),
       ),
     );
   }

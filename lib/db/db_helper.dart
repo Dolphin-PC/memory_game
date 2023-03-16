@@ -31,7 +31,7 @@ class DBHelper {
   }
 
   static Future devInitDB(Database db) async {
-    await db.execute('DROP TABLE if exists point_history');
+    // await db.execute('DROP TABLE if exists point_history');
 
     String sql1 = '''
       CREATE TABLE if not exists point_history (

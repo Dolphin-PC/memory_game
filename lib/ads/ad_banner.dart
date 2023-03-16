@@ -16,10 +16,10 @@ class AdBanner extends StatelessWidget {
       size: AdSize.banner,
       adUnitId: AdHelper.bannerAdUnitId,
       // adUnitId: UNIT_ID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
-      request: AdRequest(),
+      request: const AdRequest(),
     )..load();
 
-    return Container(
+    return SizedBox(
       height: 50,
       child: AdWidget(
         ad: banner,

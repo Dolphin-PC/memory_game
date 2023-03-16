@@ -11,33 +11,47 @@ class GameProvider extends ChangeNotifier {
 
   bool isAllCorrect = false, isAllUnCorrect = false, isClickable = false;
 
-  final List<String> initList = [
-    '1',
-    '1',
-    '2',
-    '2',
-    '3',
-    '3',
-    '4',
-    '4',
-    '5',
-    '5',
-    '6',
-    '6',
-    '7',
-    '7',
-    '8',
-    '8',
-  ];
+  CardType selectedCardType = CardType.text;
 
   void init() {
     remainLife = 3;
-    isClickable = true;
+
     gameOver();
-    initCardList = List.generate(initList.length, (i) => CardModel(displayName: i.toString(), pairId: initList[i]));
+    initCardList = initCardType();
+
     remainCardList = [...initCardList];
     initCardList.shuffle();
     notifyListeners();
+  }
+
+  List<CardModel> initCardType() {
+    List<CardModel> resultList = [];
+    switch (selectedCardType) {
+      case CardType.image:
+        {
+          for (int i = 1; i <= 8; i++) {
+            resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+            resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+          }
+          return resultList;
+        }
+      case CardType.icon:
+        {
+          for (int i = 1; i <= 8; i++) {
+            resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+            resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+          }
+          return resultList;
+        }
+      default:
+        {
+          for (int i = 1; i <= 8; i++) {
+            resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+            resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+          }
+          return resultList;
+        }
+    }
   }
 
   void gameStart() {
@@ -45,10 +59,12 @@ class GameProvider extends ChangeNotifier {
     for (var element in initCardList) {
       element.isInit = true;
     }
+    isClickable = false;
     Future.delayed(const Duration(milliseconds: 3000), () {
       for (var element in initCardList) {
         element.isInit = false;
       }
+      isClickable = true;
       notifyListeners();
     });
     notifyListeners();
@@ -64,7 +80,7 @@ class GameProvider extends ChangeNotifier {
   }
 
   void cardClick(CardModel card) {
-    if (card.isCorrect || !isClickable) return;
+    if (card.isCorrect || card.isClicked || !isClickable) return;
 
     card.isClicked = !card.isClicked;
     pairCardList.add(card);
@@ -80,7 +96,7 @@ class GameProvider extends ChangeNotifier {
     isClickable = false;
     CardModel card1 = pairCardList[0];
     CardModel card2 = pairCardList[1];
-    if (card1.pairId == card2.pairId && card1.displayName != card2.displayName) {
+    if (card1.pairId == card2.pairId) {
       correctCard(card1, card2);
     } else {
       if (allUnCorrect()) return;

@@ -1,5 +1,6 @@
 import 'package:card_memory_game/ads/ad_banner.dart';
 import 'package:card_memory_game/screens/setting_screen.dart';
+import 'package:card_memory_game/screens/stage_screen.dart';
 import 'package:card_memory_game/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../providers/game_provider.dart';
 import '../styles/color_styles.dart';
 import '../styles/text_styles.dart';
-import 'game_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => GameScreen(), fullscreenDialog: true),
+                          MaterialPageRoute(builder: (context) => StageScreen(), fullscreenDialog: true),
                         );
                       },
                     ),

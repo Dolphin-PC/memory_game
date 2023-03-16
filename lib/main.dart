@@ -1,4 +1,5 @@
 import 'package:card_memory_game/providers/point_provider.dart';
+import 'package:card_memory_game/providers/stage_provider.dart';
 import 'package:card_memory_game/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => GameProvider()),
         ChangeNotifierProvider(create: (_) => PointProvider()),
+        ChangeNotifierProvider(create: (_) => StageProvider()),
       ],
       child: MaterialApp(
         title: 'memory game',

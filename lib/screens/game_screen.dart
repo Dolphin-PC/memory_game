@@ -32,7 +32,8 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
     Util.execAfterBinding(() {
-      gameProvider.init();
+      // gameProvider.init();
+      // gameStart();
 
       // 캡쳐 방지
       FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
@@ -83,7 +84,7 @@ class _GameScreenState extends State<GameScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              PointWidget(),
+              const PointWidget(),
               Visibility(
                 visible: isGameRunning,
                 child: Row(
