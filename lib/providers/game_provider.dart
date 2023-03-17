@@ -145,10 +145,6 @@ class GameProvider extends ChangeNotifier {
 
   void allCorrect() {
     isAllCorrect = initCardList.every((card) => card.isCorrect == true);
-    if (isAllCorrect) {
-      /// TODO 모든 카드 맞췄을 시, 포인트지급(최초 1회), is_complete && 다음 스테이지 잠금 해제
-      logger.d('all correct');
-    }
   }
 
   bool allUnCorrect() {

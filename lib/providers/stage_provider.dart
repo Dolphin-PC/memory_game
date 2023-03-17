@@ -19,4 +19,8 @@ class StageProvider extends ChangeNotifier {
   Future<List<StageInfoModel>> selectList() async {
     return await StageInfoModel.selectList();
   }
+
+  Future update({required StageInfoModel stageInfoModel, required Map<String, dynamic> prmMap}) async {
+    await stageInfoModel.update(prmMap);
+  }
 }

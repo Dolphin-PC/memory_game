@@ -3,6 +3,7 @@ import 'package:card_memory_game/main.dart';
 import 'package:card_memory_game/models/stage_info_model.dart';
 import 'package:card_memory_game/providers/game_provider.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
+import 'package:card_memory_game/providers/stage_provider.dart';
 import 'package:card_memory_game/styles/text_styles.dart';
 import 'package:card_memory_game/widgets/flip_card.dart';
 import 'package:card_memory_game/widgets/game_items.dart';
@@ -65,7 +66,6 @@ class _GameScreenState extends State<GameScreen> {
     } else if (gameProvider.isAllCorrect) {
       text = "정답이다냥\n다시 할거면 날 눌러라냥";
       catImageName = "same_card_cat_hands_up.png";
-      // pointProvider.addPoint(PointType.gameClear);
     }
 
     return Column(
@@ -83,25 +83,28 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  // Text resultText() {
-  //   String text = "날 누르고\n3초 동안 보여주니, 잘봐라냥";
-  //
-  //   if (gameProvider.isAllUnCorrect) {
-  //     text = "남은 생명이 없다냥\n다시 할거면 날 눌러라냥";
-  //   } else if (gameProvider.isAllCorrect) {
-  //     text = "정답이다냥\n다시 할거면 날 눌러라냥";
-  //   }
-  //
-  //
-  // }
 
   @override
   Widget build(BuildContext context) {
     gameProvider = Provider.of(context, listen: true);
     pointProvider = Provider.of(context, listen: false);
+    StageProvider stageProvider = Provider.of(context, listen: false);
 
+    /// 게임 시작 전/후 화면
     if (gameProvider.isAllCorrect || gameProvider.isAllUnCorrect) {
       isGameRunning = false;
+    }
+
+    /// TODO 모든 카드 맞췄을 시, 포인트지급(최초 1회), is_complete && 다음 스테이지 잠금 해제
+    if(gameProvider.isAllCorrect) {
+      /// 포인트 지급 (최초 1회)
+      /// && is_complete = true
+      /// && 다음 스테이지 잠금 해제
+      if(!widget.stageInfoModel.isClear) {
+        pointProvider.addPoint(PointType.gameClear);
+        stageProvider.update(stageInfoModel: widget.stageInfoModel, prmMap: {});
+      }
+
     }
 
     return Scaffold(
