@@ -83,7 +83,6 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     gameProvider = Provider.of(context, listen: true);
@@ -96,15 +95,14 @@ class _GameScreenState extends State<GameScreen> {
     }
 
     /// TODO 모든 카드 맞췄을 시, 포인트지급(최초 1회), is_complete && 다음 스테이지 잠금 해제
-    if(gameProvider.isAllCorrect) {
+    if (gameProvider.isAllCorrect) {
       /// 포인트 지급 (최초 1회)
       /// && is_complete = true
       /// && 다음 스테이지 잠금 해제
-      if(!widget.stageInfoModel.isClear) {
+      if (!widget.stageInfoModel.isClear) {
         pointProvider.addPoint(PointType.gameClear);
         stageProvider.update(stageInfoModel: widget.stageInfoModel, prmMap: {});
       }
-
     }
 
     return Scaffold(
