@@ -1,6 +1,7 @@
 import 'package:card_memory_game/common/util.dart';
 import 'package:card_memory_game/providers/stage_provider.dart';
 import 'package:card_memory_game/styles/color_styles.dart';
+import 'package:card_memory_game/styles/text_styles.dart';
 import 'package:card_memory_game/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,17 +49,51 @@ class _StageScreenState extends State<StageScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('현재 스테이지 정보 : ${stageProvider.currentStage} / ${stageProvider.currentRound}'),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        // scrollDirection: Axis.horizontal,
-                        separatorBuilder: (BuildContext context, int index) => const Divider(),
-                        itemCount: 50,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: Text('$index'),
-                          );
-                        },
+                      // Text('현재 스테이지 정보 : ${stageProvider.currentStage} / ${stageProvider.currentRound}'),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            separatorBuilder: (BuildContext context, int index) => const Divider(),
+                            itemCount: stageProvider.maxStage,
+                            itemBuilder: (context, indexStage) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'STAGE ${indexStage + 1}',
+                                    style: TextStyles.cardText,
+                                  ),
+                                  SizedBox(
+                                    height: 100,
+                                    child: ListView.builder(
+                                      physics: const BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: stageProvider.maxRound,
+                                      itemBuilder: (_, roundIndex) {
+                                        return SizedBox(
+                                          width: 100,
+                                          child: Card(
+                                            elevation: 4,
+                                            child: Center(
+                                              child: Text(
+                                                '${indexStage + 2} X ${roundIndex + 1}',
+                                                style: TextStyles.cardText,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
