@@ -1,4 +1,5 @@
 import 'package:card_memory_game/main.dart';
+import 'package:card_memory_game/models/stage_info_model.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -13,13 +14,16 @@ class GameProvider extends ChangeNotifier {
 
   CardType selectedCardType = CardType.text;
 
-  void init() {
-    remainLife = 3;
+  late StageInfoModel stageInfoModel;
 
-    gameOver();
+  void preInit({required StageInfoModel stageInfoModel}) {
+    this.stageInfoModel = stageInfoModel;
     initCardList = initCardType();
+  }
 
-    remainCardList = [...initCardList];
+  void init() {
+    gameReset();
+
     initCardList.shuffle();
     notifyListeners();
   }
@@ -45,10 +49,15 @@ class GameProvider extends ChangeNotifier {
         }
       default:
         {
-          for (int i = 1; i <= 8; i++) {
-            resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
-            resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+          for (int i = 1; i <= stageInfoModel.stageIdx + 1; i++) {
+            for (int j = 1; j <= stageInfoModel.roundIdx; j++) {
+              resultList.add(CardModel(pairId: j.toString(), displayName: j.toString()));
+            }
           }
+          // for (int i = 1; i <= 8; i++) {
+          //   resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+          //   resultList.add(CardModel(pairId: i.toString(), displayName: i.toString()));
+          // }
           return resultList;
         }
     }
@@ -56,11 +65,16 @@ class GameProvider extends ChangeNotifier {
 
   void gameStart() {
     init();
+
+    /// 카드 초기화 (앞면)
     for (var element in initCardList) {
       element.isInit = true;
     }
     isClickable = false;
+
+    /// 카드 뒤집기 (뒷면)
     Future.delayed(const Duration(milliseconds: 3000), () {
+      logger.d('카드 뒤집기 (뒷면)');
       for (var element in initCardList) {
         element.isInit = false;
       }
@@ -70,13 +84,20 @@ class GameProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void gameOver() {
+  void gameReset() {
+    /// 생명 리셋
+    remainLife = 3;
+
+    /// 정답 여부 리셋
     isAllUnCorrect = false;
     isAllCorrect = false;
-    initCardList = [];
+    // initCardList = [];
+
+    /// 카드 배열 리셋
     pairCardList = [];
     correctedCardList = [];
-    remainCardList = [];
+    initCardList.forEach((element) => element.resetCard());
+    remainCardList = [...initCardList];
   }
 
   void cardClick(CardModel card) {
@@ -125,6 +146,7 @@ class GameProvider extends ChangeNotifier {
   void allCorrect() {
     isAllCorrect = initCardList.every((card) => card.isCorrect == true);
     if (isAllCorrect) {
+      /// TODO 모든 카드 맞췄을 시, 포인트지급(최초 1회), is_complete && 다음 스테이지 잠금 해제
       logger.d('all correct');
     }
   }

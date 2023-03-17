@@ -32,6 +32,7 @@ class DBHelper {
 
   static Future devInitDB(Database db) async {
     // await db.execute('DROP TABLE if exists point_history');
+    // await db.execute('DROP TABLE if exists stage_info');
 
     String sql1 = '''
       CREATE TABLE if not exists point_history (
@@ -42,6 +43,17 @@ class DBHelper {
       );
     ''';
 
+    String sql2 = '''
+      CREATE TABLE if not exists stage_info (
+        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        stage_idx    INTEGER NOT NULL,
+        round_idx    INTEGER NOT NULL,
+        is_clear     BOOLEAN NOT NULL,
+        is_lock      BOOLEAN NOT NULL
+      );
+    ''';
+
     await db.execute(sql1);
+    await db.execute(sql2);
   }
 }

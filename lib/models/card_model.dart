@@ -20,6 +20,11 @@ class CardModel {
 
   String? imageName = "";
   String? iconName = "";
+
+  void resetCard() {
+    isCorrect = false;
+    isClicked = false;
+  }
 }
 
 enum CardType { text, image, icon }

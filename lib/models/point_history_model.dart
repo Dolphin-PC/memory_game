@@ -30,7 +30,6 @@ class PointHistoryModel {
         pointCnt: maps[i]['point_cnt'],
         pointMemo: maps[i]['point_memo'],
         regDate: DateTime.parse(maps[i]['reg_dt']),
-        // regDate: DateFormat("yyyy-MM-dd").format(DateTime.parse(maps[i]['reg_dt'])),
       );
     });
 

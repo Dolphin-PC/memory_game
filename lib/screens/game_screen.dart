@@ -1,5 +1,6 @@
 import 'package:card_memory_game/common/util.dart';
 import 'package:card_memory_game/main.dart';
+import 'package:card_memory_game/models/stage_info_model.dart';
 import 'package:card_memory_game/providers/game_provider.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
 import 'package:card_memory_game/styles/text_styles.dart';
@@ -15,9 +16,9 @@ import 'package:provider/provider.dart';
 import '../styles/color_styles.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({
-    Key? key,
-  }) : super(key: key);
+  GameScreen({Key? key, required this.stageInfoModel}) : super(key: key);
+
+  final StageInfoModel stageInfoModel;
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -32,7 +33,7 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
     Util.execAfterBinding(() {
-      // gameProvider.init();
+      gameProvider.preInit(stageInfoModel: widget.stageInfoModel);
       // gameStart();
 
       // 캡쳐 방지
@@ -43,28 +44,56 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void dispose() {
     super.dispose();
-    gameProvider.gameOver();
+    // gameProvider.gameReset();
   }
 
+  /// [게임 시작] 버튼 클릭
   gameStart() {
+    logger.d('게임 시작냥');
     gameProvider.gameStart();
     setState(() {
       isGameRunning = true;
     });
   }
 
-  Text resultText() {
+  Column buildGameStartWidget() {
     String text = "날 누르고\n3초 동안 보여주니, 잘봐라냥";
+    String catImageName = "default_cat.png";
 
     if (gameProvider.isAllUnCorrect) {
       text = "남은 생명이 없다냥\n다시 할거면 날 눌러라냥";
     } else if (gameProvider.isAllCorrect) {
       text = "정답이다냥\n다시 할거면 날 눌러라냥";
-      pointProvider.addPoint(PointType.gameClear);
+      catImageName = "same_card_cat_hands_up.png";
+      // pointProvider.addPoint(PointType.gameClear);
     }
 
-    return Text(text, textAlign: TextAlign.center, style: TextStyles.cardText);
+    return Column(
+      children: [
+        Image.asset(
+          'assets/images/$catImageName',
+          fit: BoxFit.contain,
+        ),
+        Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyles.cardText,
+        )
+      ],
+    );
   }
+
+  // Text resultText() {
+  //   String text = "날 누르고\n3초 동안 보여주니, 잘봐라냥";
+  //
+  //   if (gameProvider.isAllUnCorrect) {
+  //     text = "남은 생명이 없다냥\n다시 할거면 날 눌러라냥";
+  //   } else if (gameProvider.isAllCorrect) {
+  //     text = "정답이다냥\n다시 할거면 날 눌러라냥";
+  //   }
+  //
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -116,19 +145,12 @@ class _GameScreenState extends State<GameScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              gameStart();
-                              logger.d('게임 사직냥');
-                            },
+                            onTap: () => gameStart(),
                             child: Hero(
                               tag: 'default_cat',
-                              child: Image.asset(
-                                'assets/images/default_cat.png',
-                                fit: BoxFit.contain,
-                              ),
+                              child: buildGameStartWidget(),
                             ),
                           ),
-                          resultText(),
                         ],
                       ),
               ),

@@ -1,3 +1,5 @@
+import 'package:card_memory_game/data/data.dart';
+import 'package:card_memory_game/models/stage_info_model.dart';
 import 'package:card_memory_game/shared_key.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -6,11 +8,15 @@ class StageProvider extends ChangeNotifier {
   int currentStage = 1, currentRound = 1;
   bool isInitStageInfo = false;
 
-  int maxStage = 5, maxRound = 10;
+  int maxStage = Data.maxStage, maxRound = Data.maxRound;
 
   Future initStageInfo() async {
     currentStage = await SharedKey.getStage();
     currentRound = await SharedKey.getRound();
     isInitStageInfo = true;
+  }
+
+  Future<List<StageInfoModel>> selectList() async {
+    return await StageInfoModel.selectList();
   }
 }
