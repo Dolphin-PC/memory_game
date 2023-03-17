@@ -101,7 +101,7 @@ class _GameScreenState extends State<GameScreen> {
       /// && 다음 스테이지 잠금 해제
       if (!widget.stageInfoModel.isClear) {
         pointProvider.addPoint(PointType.gameClear);
-        stageProvider.update(stageInfoModel: widget.stageInfoModel, prmMap: {});
+        stageProvider.update(stageInfoModel: widget.stageInfoModel, prmMap: {'is_complete': true});
       }
     }
 

@@ -23,4 +23,11 @@ class StageProvider extends ChangeNotifier {
   Future update({required StageInfoModel stageInfoModel, required Map<String, dynamic> prmMap}) async {
     await stageInfoModel.update(prmMap);
   }
+
+  Future unlockNextRound({required StageInfoModel stageInfoModel}) async {
+    int currentStageId = stageInfoModel.id!;
+
+    /// currentStageId가 마지막일 경우, 그냥 넘어감
+    // TODO
+  }
 }
