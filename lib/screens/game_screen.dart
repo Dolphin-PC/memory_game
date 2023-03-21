@@ -187,7 +187,7 @@ class _GameScreenState extends State<GameScreen> {
             children: [
               const PointWidget(),
 
-              /// 남은 생명
+              /// 상단 툴 (아이템 / 하트)
               Visibility(
                 visible: isGameRunning,
                 child: Row(

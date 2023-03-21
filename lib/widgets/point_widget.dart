@@ -4,6 +4,7 @@ import 'package:card_memory_game/common/widgets/toasts.dart';
 import 'package:card_memory_game/main.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
 import 'package:card_memory_game/screens/point_history_screen.dart';
+import 'package:card_memory_game/styles/button_styles.dart';
 import 'package:card_memory_game/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -32,30 +33,34 @@ class _PointWidgetState extends State<PointWidget> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Column(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.control_point_duplicate),
-              onPressed: () {
-                Dialogs.confirmDialog(
-                  context: context,
-                  contentText: "광고를 시청하면, 츄르를 ${PointType.watchAds}개를 준다냥",
-                  succBtnName: "시청",
-                  succFn: () {
-                    adRewarded.rewardedAd?.show(
-                      onUserEarnedReward: (_, RewardItem reward) {
-                        logger.d("광고 시청 완료, ${reward.type}");
-                        pointProvider.addPoint(PointType.watchAds);
-                        Toasts.show(msg: "츄르 5개를 얻었다냥");
-                      },
-                    );
-                    Navigator.pop(context);
+        GestureDetector(
+          onTap: () {
+            Dialogs.confirmDialog(
+              context: context,
+              titleText: "츄르 충전",
+              succBtnName: "광고시청",
+              succFn: () {
+                adRewarded.rewardedAd?.show(
+                  onUserEarnedReward: (_, RewardItem reward) {
+                    logger.d("광고 시청 완료, ${reward.type}");
+                    pointProvider.addPoint(PointType.watchAds);
+                    Toasts.show(msg: "츄르 5개를 얻었다냥");
                   },
                 );
               },
-            ),
-            Text('츄르', style: TextStyles.labelText)
-          ],
+              contentWidget: SizedBox(
+                height: 100,
+                child: Center(
+                  child: Text(
+                    "광고를 시청하면\n 츄르를 ${PointType.watchAds}개를 준다냥",
+                    style: TextStyles.plainText,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            );
+          },
+          child: Image.asset("assets/images/chur.png", width: 30),
         ),
         const SizedBox(width: 8),
         FutureBuilder(
