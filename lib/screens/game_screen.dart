@@ -121,6 +121,43 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
+  double getGridWidth(int cnt) {
+    double result = 10.0;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height * 0.8;
+
+    // result = (width + height) / cnt;
+
+    // if (result * cnt > height) {
+    // result = ((width + height) / cnt) / cnt;
+    // }
+    if (cnt < 6) {
+      result = width / 2;
+    } else if (cnt < 12) {
+      result = width / 3;
+    } else if (cnt < 18) {
+      result = width / 4;
+    } else if (cnt < 24) {
+      result = width / 5;
+    } else if (cnt < 30) {
+      result = width / 6;
+    } else if (cnt < 36) {
+      result = width / 7;
+    } else if (cnt < 42) {
+      result = width / 8;
+    } else if (cnt < 48) {
+      result = width / 9;
+    } else if (cnt < 54) {
+      result = width / 10;
+    } else if (cnt < 60) {
+      result = width / 11;
+    } else {
+      result = width / 12;
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     gameProvider = Provider.of(context, listen: true);
@@ -149,6 +186,8 @@ class _GameScreenState extends State<GameScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const PointWidget(),
+
+              /// 남은 생명
               Visibility(
                 visible: isGameRunning,
                 child: Row(
@@ -159,14 +198,16 @@ class _GameScreenState extends State<GameScreen> {
                   ],
                 ),
               ),
+
+              /// 게임 카드 Grid View
               Expanded(
                 child: isGameRunning
                     ? Center(
                         child: GridView.builder(
                           shrinkWrap: true,
                           itemCount: gameProvider.initCardList.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4, // 1개의 행에 보여줄 item 개수
+                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: getGridWidth(gameProvider.initCardList.length),
                             childAspectRatio: 1 / 1, // item 비율
                             mainAxisSpacing: 10, // 수평 padding
                             crossAxisSpacing: 10, // 수직 padding
@@ -189,6 +230,8 @@ class _GameScreenState extends State<GameScreen> {
                         ],
                       ),
               ),
+
+              /// 테스트용 버튼
               Visibility(
                 visible: kDebugMode && isGameRunning,
                 child: ElevatedButton(
@@ -196,6 +239,8 @@ class _GameScreenState extends State<GameScreen> {
                   child: const Text('완료 처리'),
                 ),
               ),
+
+              /// 뒤로 가기 버튼
               SizedBox(
                 height: 50,
                 child: GestureDetector(
