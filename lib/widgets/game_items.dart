@@ -17,36 +17,29 @@ class GameItems extends StatefulWidget {
 
 class _GameItemState extends State<GameItems> {
   String itemDialogText = "츄르 아이템 사용";
-  Image itemImage = Image.asset("assets/images/chur.png", width: 20);
+  Image itemImage = Image.asset("assets/icons/chur.png", width: 20);
 
   Widget commonContentWidget({required String msg, required int itemCnt}) {
     return SizedBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Divider(height: 10,color: Colors.grey),
+          const Divider(height: 10, color: Colors.grey),
           Text(msg, style: TextStyles.plainText, textAlign: TextAlign.center),
           const SizedBox(height: 10),
           Container(
-            decoration: BoxDecoration(
-                color: ColorStyles.bgPrimaryColor,
-                borderRadius: const BorderRadius.all(Radius.circular(20))
-            ),
+            decoration: BoxDecoration(color: ColorStyles.bgPrimaryColor, borderRadius: const BorderRadius.all(Radius.circular(20))),
             // color: Colors.amber,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  itemImage,
-                  const SizedBox(width: 8),
-                  Text('$itemCnt')
-                ],
+                children: [itemImage, const SizedBox(width: 8), Text('$itemCnt')],
               ),
             ),
           ),
-          const Divider(height: 10,color: Colors.grey),
+          const Divider(height: 10, color: Colors.grey),
         ],
       ),
     );
@@ -59,9 +52,8 @@ class _GameItemState extends State<GameItems> {
     return Row(
       children: [
         /// [하트충전] 아이템
-        IconButton(
-          icon: const Icon(Icons.volunteer_activism),
-          onPressed: () {
+        GestureDetector(
+          onTap: () {
             Dialogs.confirmDialog(
               context: context,
               titleText: itemDialogText,
@@ -75,15 +67,18 @@ class _GameItemState extends State<GameItems> {
                 }
                 gameProvider.useItemAddHeart(pointProvider: pointProvider);
               },
-              contentWidget: commonContentWidget(msg : "츄르를 사용하겠냥?\n[하트충전]", itemCnt: PointType.itemAddHeart),
+              contentWidget: commonContentWidget(msg: "츄르를 사용하겠냥?\n[하트충전]", itemCnt: PointType.itemAddHeart),
             );
           },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset("assets/icons/add_heart.png", width: 30),
+          ),
         ),
 
         /// [다시보기] 아이템
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
+        GestureDetector(
+          onTap: () {
             Dialogs.confirmDialog(
               context: context,
               titleText: itemDialogText,
@@ -94,15 +89,17 @@ class _GameItemState extends State<GameItems> {
                 }
                 gameProvider.useItemReview(pointProvider: pointProvider);
               },
-              contentWidget : commonContentWidget(msg : "츄르를 사용하겠냥?\n[다시보기]", itemCnt: PointType.itemReview),
+              contentWidget: commonContentWidget(msg: "츄르를 사용하겠냥?\n[다시보기]", itemCnt: PointType.itemReview),
             );
           },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset("assets/icons/review.png", width: 30),
+          ),
         ),
-
         /// [1페어 맞추기] 아이템
-        IconButton(
-          icon: const Icon(Icons.done_all),
-          onPressed: () {
+        GestureDetector(
+          onTap: () {
             Dialogs.confirmDialog(
               context: context,
               titleText: itemDialogText,
@@ -113,9 +110,13 @@ class _GameItemState extends State<GameItems> {
                 }
                 gameProvider.useItemDonePair(pointProvider: pointProvider);
               },
-              contentWidget : commonContentWidget(msg : "츄르를 사용하겠냥?\n[짝맞추기]", itemCnt: PointType.itemDonePair),
+              contentWidget: commonContentWidget(msg: "츄르를 사용하겠냥?\n[짝맞추기]", itemCnt: PointType.itemDonePair),
             );
           },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset("assets/icons/done_pair.png", width: 30),
+          ),
         ),
       ],
     );

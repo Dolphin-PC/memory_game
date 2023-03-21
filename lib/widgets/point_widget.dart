@@ -49,18 +49,23 @@ class _PointWidgetState extends State<PointWidget> {
                 );
               },
               contentWidget: SizedBox(
-                height: 100,
-                child: Center(
-                  child: Text(
-                    "광고를 시청하면\n 츄르를 ${PointType.watchAds}개를 준다냥",
-                    style: TextStyles.plainText,
-                    textAlign: TextAlign.center,
-                  ),
+                child: Column(
+                  children: [
+                    const Divider(height: 10, color: Colors.grey),
+                    Text(
+                      "광고를 시청하면\n 츄르를 ${PointType.watchAds}개를 준다냥",
+                      style: TextStyles.plainText,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    Image.asset("assets/images/kitty.png", width: 50),
+                    const Divider(height: 10, color: Colors.grey),
+                  ],
                 ),
               ),
             );
           },
-          child: Image.asset("assets/images/chur.png", width: 30),
+          child: Image.asset("assets/icons/chur.png", width: 30),
         ),
         const SizedBox(width: 8),
         FutureBuilder(
