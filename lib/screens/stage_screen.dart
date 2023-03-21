@@ -42,9 +42,10 @@ class _StageScreenState extends State<StageScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => GameScreen(
-                        stageInfoModel: stage,
-                      )),
+                builder: (context) => GameScreen(
+                  stageInfoModel: stage,
+                ),
+              ),
             );
           }
         },

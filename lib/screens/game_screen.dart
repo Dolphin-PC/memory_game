@@ -1,5 +1,5 @@
 import 'package:card_memory_game/common/util.dart';
-import 'package:card_memory_game/main.dart';
+import 'package:card_memory_game/common/widgets/toasts.dart';
 import 'package:card_memory_game/models/stage_info_model.dart';
 import 'package:card_memory_game/providers/game_provider.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 import '../styles/color_styles.dart';
 
 class GameScreen extends StatefulWidget {
-  GameScreen({Key? key, required this.stageInfoModel}) : super(key: key);
+  const GameScreen({Key? key, required this.stageInfoModel}) : super(key: key);
 
   final StageInfoModel stageInfoModel;
 
@@ -28,11 +28,11 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   late GameProvider gameProvider;
   late PointProvider pointProvider;
+  late StageProvider stageProvider;
   bool isGameRunning = false;
 
   @override
   void initState() {
-    super.initState();
     Util.execAfterBinding(() {
       gameProvider.preInit(stageInfoModel: widget.stageInfoModel);
       // gameStart();
@@ -40,17 +40,17 @@ class _GameScreenState extends State<GameScreen> {
       // 캡쳐 방지
       FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
     });
+    super.initState();
   }
 
   @override
   void dispose() {
+    gameProvider.gameReset();
     super.dispose();
-    // gameProvider.gameReset();
   }
 
   /// [게임 시작] 버튼 클릭
   gameStart() {
-    logger.d('게임 시작냥');
     gameProvider.gameStart();
     setState(() {
       isGameRunning = true;
@@ -83,25 +83,31 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
+  /// round 최초 clear 시
+  Future<void> onRoundClear() async {
+    /// 모든 카드 맞췄을 시, 포인트지급(최초 1회), is_complete && 다음 스테이지 잠금 해제
+    await pointProvider.addPoint(PointType.gameClear);
+    await stageProvider.update(stageInfoModel: widget.stageInfoModel, prmMap: {'is_clear': true});
+    if (await stageProvider.unlockNextRound(stageInfoModel: widget.stageInfoModel)) {
+      Toasts.show(msg: "다음 스테이지가 열렸다냥");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     gameProvider = Provider.of(context, listen: true);
     pointProvider = Provider.of(context, listen: false);
-    StageProvider stageProvider = Provider.of(context, listen: false);
+    stageProvider = Provider.of(context, listen: false);
 
     /// 게임 시작 전/후 화면
     if (gameProvider.isAllCorrect || gameProvider.isAllUnCorrect) {
       isGameRunning = false;
     }
 
-    /// TODO 모든 카드 맞췄을 시, 포인트지급(최초 1회), is_complete && 다음 스테이지 잠금 해제
     if (gameProvider.isAllCorrect) {
-      /// 포인트 지급 (최초 1회)
-      /// && is_complete = true
-      /// && 다음 스테이지 잠금 해제
-      if (!widget.stageInfoModel.isClear) {
-        pointProvider.addPoint(PointType.gameClear);
-        stageProvider.update(stageInfoModel: widget.stageInfoModel, prmMap: {'is_complete': true});
+      if (!gameProvider.stageInfoModel.isClear) {
+        gameProvider.stageInfoModel.isClear = true;
+        onRoundClear();
       }
     }
 

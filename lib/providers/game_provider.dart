@@ -74,7 +74,6 @@ class GameProvider extends ChangeNotifier {
 
     /// 카드 뒤집기 (뒷면)
     Future.delayed(const Duration(milliseconds: 3000), () {
-      logger.d('카드 뒤집기 (뒷면)');
       for (var element in initCardList) {
         element.isInit = false;
       }
