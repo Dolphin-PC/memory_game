@@ -10,7 +10,7 @@ class StageInfoModel {
   final int? id;
   final int stageIdx;
   final int roundIdx;
-  final bool isClear;
+  bool isClear;
   final bool isLock;
 
   Map<String, dynamic> toMap() {
@@ -74,6 +74,11 @@ class StageInfoModel {
   }
 
   Future<void> update(Map<String, dynamic> prmMap) async {
+    final db = await DBHelper().database;
+    await db.update(tableName, prmMap, where: 'id = ?', whereArgs: [id]);
+  }
+
+  static Future<void> updateOne({required int id, required Map<String, dynamic> prmMap}) async {
     final db = await DBHelper().database;
     await db.update(tableName, prmMap, where: 'id = ?', whereArgs: [id]);
   }

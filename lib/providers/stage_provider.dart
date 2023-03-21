@@ -10,12 +10,14 @@ class StageProvider extends ChangeNotifier {
 
   int maxStage = Data.maxStage, maxRound = Data.maxRound;
 
+  /// 스테이지 정보 초기화
   Future initStageInfo() async {
     currentStage = await SharedKey.getStage();
     currentRound = await SharedKey.getRound();
     isInitStageInfo = true;
   }
 
+  /// DB stage 정보 조회
   Future<List<StageInfoModel>> selectList() async {
     return await StageInfoModel.selectList();
   }
@@ -24,10 +26,17 @@ class StageProvider extends ChangeNotifier {
     await stageInfoModel.update(prmMap);
   }
 
-  Future unlockNextRound({required StageInfoModel stageInfoModel}) async {
-    int currentStageId = stageInfoModel.id!;
+  /// 다음 레벨 unlock
+  Future<bool> unlockNextRound({required StageInfoModel stageInfoModel}) async {
+    int currentId = stageInfoModel.id!;
+    int currentRoundIdx = stageInfoModel.roundIdx;
 
     /// currentStageId가 마지막일 경우, 그냥 넘어감
-    // TODO
+    if (currentRoundIdx == Data.maxRound) return false;
+
+    int nextId = currentId + 1;
+    StageInfoModel.updateOne(id: nextId, prmMap: {'is_lock': false});
+    notifyListeners();
+    return true;
   }
 }

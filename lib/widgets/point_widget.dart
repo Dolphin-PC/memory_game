@@ -1,5 +1,6 @@
 import 'package:card_memory_game/ads/ad_rewarded.dart';
 import 'package:card_memory_game/common/widgets/dialogs.dart';
+import 'package:card_memory_game/common/widgets/toasts.dart';
 import 'package:card_memory_game/main.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
 import 'package:card_memory_game/screens/point_history_screen.dart';
@@ -29,23 +30,32 @@ class _PointWidgetState extends State<PointWidget> {
     PointProvider pointProvider = Provider.of(context, listen: true);
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        IconButton(
-          icon: const Icon(Icons.control_point_duplicate),
-          onPressed: () {
-            Dialogs.confirmDialog(
-              context: context,
-              contentText: "광고를 시청하면, 츄르를 ${PointType.watchAds}개를 준다냥",
-              succBtnName: "시청",
-              succFn: () {
-                adRewarded.rewardedAd?.show(onUserEarnedReward: (_, RewardItem reward) {
-                  logger.d("광고 시청 완료, ${reward.type}");
-                  pointProvider.addPoint(PointType.watchAds);
-                });
-                Navigator.pop(context);
+        Column(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.control_point_duplicate),
+              onPressed: () {
+                Dialogs.confirmDialog(
+                  context: context,
+                  contentText: "광고를 시청하면, 츄르를 ${PointType.watchAds}개를 준다냥",
+                  succBtnName: "시청",
+                  succFn: () {
+                    adRewarded.rewardedAd?.show(
+                      onUserEarnedReward: (_, RewardItem reward) {
+                        logger.d("광고 시청 완료, ${reward.type}");
+                        pointProvider.addPoint(PointType.watchAds);
+                        Toasts.show(msg: "츄르 5개를 얻었다냥");
+                      },
+                    );
+                    Navigator.pop(context);
+                  },
+                );
               },
-            );
-          },
+            ),
+            Text('츄르', style: TextStyles.labelText)
+          ],
         ),
         const SizedBox(width: 8),
         FutureBuilder(
