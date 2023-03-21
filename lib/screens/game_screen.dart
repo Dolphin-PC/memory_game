@@ -64,7 +64,7 @@ class _GameScreenState extends State<GameScreen> {
     if (gameProvider.isAllUnCorrect) {
       text = "남은 생명이 없다냥\n다시 할거면 날 눌러라냥";
     } else if (gameProvider.isAllCorrect) {
-      text = "정답이다냥\n다시 할거면 날 눌러라냥";
+      text = "정답이다냥";
       catImageName = "same_card_cat_hands_up.png";
     }
 
@@ -78,6 +78,34 @@ class _GameScreenState extends State<GameScreen> {
           text,
           textAlign: TextAlign.center,
           style: TextStyles.cardText,
+        ),
+        Visibility(
+          visible: gameProvider.isAllCorrect,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(Icons.list_rounded),
+                    iconSize: 32,
+                  ),
+                  Text('목록으로', style: TextStyles.plainText)
+                ],
+              ),
+              Column(
+                children: [
+                  IconButton(
+                    onPressed: () => gameStart(),
+                    icon: Icon(Icons.refresh),
+                    iconSize: 32,
+                  ),
+                  Text('다시하기', style: TextStyles.plainText)
+                ],
+              ),
+            ],
+          ),
         )
       ],
     );
@@ -89,7 +117,7 @@ class _GameScreenState extends State<GameScreen> {
     await pointProvider.addPoint(PointType.gameClear);
     await stageProvider.update(stageInfoModel: widget.stageInfoModel, prmMap: {'is_clear': true});
     if (await stageProvider.unlockNextRound(stageInfoModel: widget.stageInfoModel)) {
-      Toasts.show(msg: "다음 스테이지가 열렸다냥");
+      Toasts.show(msg: "다음 스테이지가 열렸다냥\n츄르 1개를 얻었다냥");
     }
   }
 
