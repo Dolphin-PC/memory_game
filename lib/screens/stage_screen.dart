@@ -25,7 +25,6 @@ class _StageScreenState extends State<StageScreen> {
     Util.execAfterBinding(() async {
       await stageProvider.initStageInfo();
 
-      setState(() {});
     });
   }
 

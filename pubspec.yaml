@@ -42,7 +42,7 @@ dependencies:
   sqflite: ^2.2.4+1
   path: ^1.8.2
   intl: ^0.18.0
-  collection: ^1.17.0
+  collection: ^1.16.0
   fluttertoast: ^8.2.1
 
 dev_dependencies:

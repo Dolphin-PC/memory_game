@@ -14,7 +14,10 @@ class StageProvider extends ChangeNotifier {
   Future initStageInfo() async {
     currentStage = await SharedKey.getStage();
     currentRound = await SharedKey.getRound();
+    // 초기 스테이지 정보 세팅
+    await StageInfoModel.initData();
     isInitStageInfo = true;
+    notifyListeners();
   }
 
   /// DB stage 정보 조회

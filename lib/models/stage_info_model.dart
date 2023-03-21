@@ -27,10 +27,6 @@ class StageInfoModel {
     final db = await DBHelper().database;
     final List<dynamic> maps = await db.query(tableName, orderBy: 'stage_idx asc, round_idx asc');
 
-    if (maps.isEmpty) {
-      await initData();
-    }
-
     var list = List.generate(maps.length, (i) {
       return StageInfoModel(
         id: maps[i]['id'],
@@ -47,6 +43,12 @@ class StageInfoModel {
   }
 
   static Future<void> initData() async {
+    final db = await DBHelper().database;
+    final List<dynamic> maps = await db.query(tableName);
+
+    /// 데이터 수가 같을 경우, 초기화 진행 X
+    if(maps.length == Data.maxStage * Data.maxRound) return;
+
     for (int stage = 1; stage <= Data.maxStage; stage++) {
       for (int round = 1; round <= Data.maxRound; round++) {
         bool isLock = true;

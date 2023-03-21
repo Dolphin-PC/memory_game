@@ -1,3 +1,4 @@
+import 'package:card_memory_game/db/db_helper.dart';
 import 'package:card_memory_game/providers/point_provider.dart';
 import 'package:card_memory_game/providers/stage_provider.dart';
 import 'package:card_memory_game/screens/home_screen.dart';
@@ -9,19 +10,14 @@ import 'package:provider/provider.dart';
 
 import 'providers/game_provider.dart';
 
-var logger = Logger(
-  printer: PrettyPrinter(),
-);
-
-var loggerNoStack = Logger(
-  printer: PrettyPrinter(methodCount: 0),
-);
+var logger = Logger(printer: PrettyPrinter());
+var loggerNoStack = Logger(printer: PrettyPrinter(methodCount: 0));
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (!kIsWeb) {
-    MobileAds.instance.initialize();
-  }
+  await DBHelper().database;
+
+  MobileAds.instance.initialize();
 
   runApp(const MyApp());
 }
