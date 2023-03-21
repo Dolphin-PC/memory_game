@@ -11,7 +11,7 @@
 ### > 포인트 사용 아이템 추가 (하트 추가 / 다시 보기 / 1세트 맞추기)
 ### > 포인트 저장/사용 이력 추가 (sqflite 적용 / 화면 추가)
 > 카드 짝 맞출 시, 하트 충전 (max : 3)
-> 레벨 시스템 적용
+### > 레벨 시스템 적용
 - stage 1 * round 1 > tile : 2, select : 2*1
 - stage 1 * round 2 > tile : 4, select : 2*2
 - stage 1 * round 3 > tile : 6, select : 2*3
