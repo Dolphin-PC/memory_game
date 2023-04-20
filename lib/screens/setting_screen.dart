@@ -58,7 +58,7 @@ class SettingScreen extends StatelessWidget {
                 color: ColorStyles.bgSecondaryColor,
                 child: GestureDetector(
                   onTap: () async {
-                    const privacyUrl = 'https://dolphin-pc.notion.site/2a2bbb4acfe94c5384667e39de90d6ec';
+                    const privacyUrl = 'https://dolphin-pc.github.io/memory_game';
                     launchUrlString(privacyUrl);
                   },
                   child: ListTile(
